@@ -1,4 +1,9 @@
+server:
+  port: 8080
+
 spring:
+  application:
+    name: invoicemanager
   datasource:
     url: jdbc:mysql://localhost:3306/invoicemanager
     password: invoicemanager
