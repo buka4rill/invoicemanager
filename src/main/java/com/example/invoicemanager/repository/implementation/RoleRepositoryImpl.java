@@ -18,8 +18,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.example.invoicemanager.enumeration.RoleType.ROLE_USER;
+import static com.example.invoicemanager.enumeration.RoleType.*;
 import static com.example.invoicemanager.enumeration.VerificationType.ACCOUNT;
+import static com.example.invoicemanager.query.RoleQuery.*;
 import static com.example.invoicemanager.query.UserQuery.INSERT_ACCOUNT_VERIFICATION_URL_QUERY;
 import static com.example.invoicemanager.query.UserQuery.INSERT_USER_QUERY;
 import static java.util.Objects.requireNonNull;
@@ -29,8 +30,6 @@ import static java.util.Objects.requireNonNull;
 @RequiredArgsConstructor
 @Slf4j
 public class RoleRepositoryImpl implements RoleRepository<Role> {
-    private static final String INSERT_ROLE_TO_USER_QUERY = "";
-    private static final String SELECT_ROLE_BY_NAME_QUERY = "";
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
 
@@ -68,9 +67,11 @@ public class RoleRepositoryImpl implements RoleRepository<Role> {
             jdbcTemplate.update(INSERT_ROLE_TO_USER_QUERY, Map.of("userId", userId, "roleId", role.getId()));
 
         } catch (EmptyResultDataAccessException e) {
-            throw new ApiException("No role found by name: " + ROLE_USER.name());
+            log.error("No role found by name: {}", roleName, e);
+            throw new ApiException("No role found by name: " + roleName, e);
         } catch (Exception e) {
-            throw new ApiException("An error occurred while creating user: " + e.getMessage() + ". Please try again.");
+            log.error("An error occurred while adding role {} to user id: {}", roleName, userId, e);
+            throw new ApiException("An error occurred while adding role to user: " + e.getMessage() + ". Please try again.", e);
         }
     }
 

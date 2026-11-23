@@ -28,6 +28,7 @@ CREATE TABLE users
     using_mfa       BOOLEAN DEFAULT FALSE,
     image_url       VARCHAR(255) DEFAULT 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
     created_at      DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at      DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT      uq_users_email UNIQUE (email)
 );
 
@@ -38,6 +39,12 @@ CREATE TABLE roles
     permission      VARCHAR(255) NOT NULL, -- user:read,user:delete,customer:read
     CONSTRAINT      uq_roles_name UNIQUE (name)
 );
+
+INSERT INTO roles (name, permission) VALUES
+    ('ROLE_USER', 'user:read,customer:read'),
+    ('ROLE_MANAGER', 'user:read,user:update,customer:read,customer:update'),
+    ('ROLE_ADMIN', 'user:read,user:create,user:update,customer:read,customer:create,customer:update'),
+    ('ROLE_SYSADMIN', 'user:read,user:create,user:update,user:delete,customer:read,customer:create,customer:update,customer:delete,system:manage');
 
 CREATE TABLE user_roles
 (
@@ -65,6 +72,7 @@ CREATE TABLE user_events
     device          VARCHAR(100) DEFAULT NULL,
     ip_address      VARCHAR(100) DEFAULT NULL,
     created_at      DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at      DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (event_id) REFERENCES events (id) ON DELETE RESTRICT ON UPDATE CASCADE
 );

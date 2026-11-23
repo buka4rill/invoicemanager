@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: invoicemanager
+  jackson:
+    deserialization:
+      fail-on-null-for-primitives: false
   datasource:
     url: jdbc:mysql://localhost:3306/invoicemanager
     password: invoicemanager
@@ -19,5 +22,5 @@ spring:
         format_sql: true
   sql:
     init:
-      mode: always
+      mode: never
       continue-on-error: false
