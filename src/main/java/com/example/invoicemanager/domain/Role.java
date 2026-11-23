@@ -20,8 +20,5 @@ public class Role {
 
     private String name;
 
-    private String permissions;
-
-
-
+    private String permission;
 }
