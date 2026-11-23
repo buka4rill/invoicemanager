@@ -1,0 +1,13 @@
+${AnsiColor.BRIGHT_BLUE}
++--------------------------+
+|      I N V O I C E       |
++--------------------------+
+| Item              Amount |
+| ------------------------ |
+| Consulting Work     $500 |
+| Cloud Hosting        $50 |
+| ------------------------ |
+| TOTAL               $550 |
++--------------------------+
+${AnsiColor.DEFAULT}
+  :: ${application.title:Invoice Manager} ::  v${application.version:0.0.1-SNAPSHOT}  ::  Spring Boot ${spring-boot.version} ::
